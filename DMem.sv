@@ -1,16 +1,16 @@
 module DMem(
   input Clk,
-        Wen,
-  input[7:0] WDat,
-             Addr,
-  output logic[7:0] Rdat);
+        WriteEnable,
+  input[7:0] WriteData,
+             AddressIn,
+  output logic[7:0] ValueOut);
 
   logic[7:0] Core[256];
 
   always_ff @(posedge Clk)
-    if(Wen) Core[Addr] <= WDat;
+    if(WriteEnable) Core[Addr] <= WriteData;
 
-  assign Rdat = Core[Addr];
+  assign ValueOut = Core[AddressIn];
 
 endmodule
 
