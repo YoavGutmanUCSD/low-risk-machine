@@ -79,7 +79,10 @@ module DUT (
   BranchSelect branchSelect (
     .BranchType(BranchType),
     .CounterValue(CounterValue),
-    .ImmediateValue({4'b0000,Value2}) // 4->8bit
+    .ImmediateValue({4'b0000,Value2}), // 4->8bit
+    .Carry(Carry),
+    .Zero(Zero),
+    .JumpValue(TotalJump)
   );
   CounterArray counterArray(
     .rst(ResetCounter),
