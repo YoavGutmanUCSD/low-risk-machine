@@ -10,7 +10,6 @@ module BranchSelect(
 
 always_comb begin
   JumpValue = 8'b1;
-  Jen = 1'b0;
   case(BranchType)
     2'b01: begin // jnc
       JumpValue = Carry ? 1 : ImmediateValue;
@@ -19,8 +18,9 @@ always_comb begin
       JumpValue = Zero ? ImmediateValue : 1;
     end
     2'b11: begin // back
-      Jen = 1'b1;
       JumpValue = CounterValue;
     end
   endcase
-end
+end 
+  
+endmodule

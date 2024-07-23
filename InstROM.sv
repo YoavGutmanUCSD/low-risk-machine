@@ -5,7 +5,7 @@ module InstROM(
   logic[8:0] Core[256];
 
   initial 
-	$readmemb("mach_code.txt",Core);
+    $readmemb("mov-sim-test.txt",Core);
 
   always_comb mach_code = Core[PC];
 

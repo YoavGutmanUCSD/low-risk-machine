@@ -10,7 +10,6 @@ module ALU(
 
 always_comb begin
   Rslt = 8'b0;
-  SCo  = 8'b0;
   Carry = CarryIn;
   Zero = !Rslt;
   case(op)
@@ -38,43 +37,5 @@ always_comb begin
   endcase
 end
 
-always_comb begin
-  Zero <= !Rslt;
-  Carry <= CarryIn;
-  case(op)
-
-  endcase
-
 endmodule
-  /* 
-  *
-    * 
-    * mark 0
-    * lsh r1 // lsb
-    * lsh r2 // msb
-    * jnc 2
-    * add r3 // acc += 1
-    * jz 2
-    * back 0
 
-    * mark 0
-    * lsh r1 // lsb
-    * jnc 2
-    * add r3 // acc += 1
-    * jz 2
-    * back 0
-    * mark 0
-    * lsh r2 // msb
-    * jnc 2
-    * add r3 // acc += 1
-    * jz 2
-    * back 0
-    */
-
-   // 1110 0001 
-   // 1100 0010
-   // 1000 0100
-   // 0000 1000
-   // 0001 0000
-   //
-   // {AccIn[6:0], CarryIn}

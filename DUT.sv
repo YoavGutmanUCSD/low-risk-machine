@@ -1,3 +1,13 @@
+`include "ALU.sv"
+`include "BranchSelect.sv"
+`include "CounterArray.sv"
+`include "Counter.sv"
+`include "Ctrl.sv"
+`include "DMem.sv"
+`include "InstROM.sv"
+`include "ProgCtr.sv"
+`include "RegFile.sv"
+
 module DUT (
   input        Clk,
 		       Reset,
@@ -22,16 +32,17 @@ module DUT (
              MemWrite,
              Type,
              ResetCounter,
-             Done,
              AluOrMemToReg;
   // TODO: finish 1 bit wires and carry, zero registers
   reg        Carry,
              Zero;
 
+  assign WriteData = Type ? Immediate : AluOrMemToReg ? ValueOut : Result;
 
 
   Ctrl ControlUnit (
     .mach_code(Instruction),
+    .start(Reset),
     .Imm(Immediate),
     .Aluop(ALUOp),
     .Value2(Value2),
@@ -61,7 +72,7 @@ module DUT (
     .AddressIn(Value2),
     .WriteData(WriteData),
     .AccOut(AccOut),
-    .OperandOut(ValueOut));
+    .OperandOut(OperandOut));
   ALU Alu (
     .op(ALUOp),
     .CarryIn(Carry),
@@ -74,7 +85,8 @@ module DUT (
   DMem DataMemory (
     .Clk(Clk),
     .WriteEnable(MemWrite),
-    .AddressIn(Value2),
+    .AddressIn(OperandOut),
+    .WriteData(AccOut),
     .ValueOut(ValueOut));
   BranchSelect branchSelect (
     .BranchType(BranchType),

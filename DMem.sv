@@ -8,7 +8,7 @@ module DMem(
   logic[7:0] Core[256];
 
   always_ff @(posedge Clk)
-    if(WriteEnable) Core[Addr] <= WriteData;
+    if(WriteEnable) Core[AddressIn] <= WriteData;
 
   assign ValueOut = Core[AddressIn];
 

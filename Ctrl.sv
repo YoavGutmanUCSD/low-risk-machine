@@ -1,6 +1,7 @@
 module Ctrl(
   input        [8:0] mach_code,
-  output logic [7:0] Imm
+  input              start,
+  output logic [7:0] Imm,
   output logic [3:0] Aluop,
                      Value2, // either operand ptr, jump immediate, or counter select
   output logic [1:0] BranchType,
@@ -24,7 +25,7 @@ module Ctrl(
     MemRead = 'b0;
     ResetCounter = 'b0;
     MemWrite = 'b0;
-    RegWrite = 'b1;
+    RegWrite = 'b1 && !start;
     MemRead = 'b0;
     Type = 'b0;
     InPlace = 'b0;
@@ -33,14 +34,14 @@ module Ctrl(
     Value2 = mach_code[3:0];
     BranchType = 2'b00;
     if(mach_code[8])
-      Type = 'b1
+      Type = 'b1;
     else case (mach_code[7:4])
       4'b0001: begin // load
         MemRead = 'b1;
         AluOrMemToReg = 'b1;
       end
       4'b0010: begin // store
-        MemWrite = 'b1;
+        MemWrite = 'b1 && !start;
         RegWrite = 'b0;
       end
       4'b0011: begin // mov
